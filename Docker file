@@ -1,0 +1,64 @@
+For installing the docker, I'm using the REDHAT 8 operating system. By default the REDHAT 8 doesn't come with the docker software. So first we have to download the docker software in side the REDHAT 8.
+For this we have to configure the yum repository.
+First of all login with root account and then go to:
+-> cd /etc/yum.repos.d/
+
+Create the file for docker repo with any name. The extension of file should be repo only.
+Then open the vim editor with file that you have created .then write the code that are given below:
+[docker]
+baseurl=https://download.docker.com/linux/centos/7/x86_64/stable/
+gpgcheck=0
+EOF
+Now update the yum repository using command:
+-> yum repolist
+Alt Text
+Now Download the docker-ce software that is community version. Use command –
+yum install docker-ce –nobest
+After installing docker if we check docker is install or not then run the command:
+-> rpm -q docker-ce (it will show the software name )
+
+Now start all the services of Docker through the below command:
+->systemctl enable docker
+If we check the status of the docker then run the command:
+->systemctl status docker
+
+
+Now we can move towards deployment of ML Model. So let's pull a centos docker image for building own docker image top of it.
+->docker pull centos:latest
+To check the images, run the below command, you can see your all the docker images like this:
+->docker images
+
+Then we have to start our docker using the command:
+-> docker run -i -t centos:latest
+Then it will gives us new terminal for centos like this:
+
+
+Then inside the docker container we have to deploy our ML model
+For this we have install the python and the libraries that are require for our ML model.
+First inastall the python using the command:
+-> yum install python3
+
+
+Then we have to install the libraries using the command:
+->pip3 install numpy
+->pip3 install pandas
+->pip3 install scikit-learn
+For ML model we require the data set.so for this we have to transfer or import the data set from the base operating system(REDHAT 8) to docker container.
+For this we have to use the command:
+-> docker cp (file name) (image name of container):/
+
+Here the command will be:
+-> docker cp SalaryData.csv busy_Matsumoto :/
+
+After that you will see your file that would be transferm from base operating system to docker container.
+
+
+Then we have to lunch our vim editor in docker container to run the ML code:
+->vim file name
+->vim salary.py
+
+
+After writing the code in vim editor we have to run the command in docker container.so for that we have to use the command:
+-> python3 (file name)
+-> python3 salary.py
+
